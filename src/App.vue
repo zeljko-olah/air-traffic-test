@@ -2,7 +2,6 @@
   #app
     #nav
       router-link(to="/") Home
-      router-link(to="/details") Details
       h1 Welcome to Air Traffic
       hr
     router-view
@@ -15,6 +14,11 @@
 </script>
 
 <style lang="stylus">
+body{
+  // background -webkit-linear-gradient(left, #25c481, #25b7c4)
+  // background linear-gradient(to right, #25c481, #25b7c4)
+  // font-family: 'Roboto', sans-serif
+}
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased

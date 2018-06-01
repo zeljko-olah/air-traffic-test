@@ -1,9 +1,15 @@
 <template lang="pug">
   .home
+    //- USER LOCATION
+    p.location-headline Your Location: {{ getAddress }}
+    //- COORDINATES
     p(v-if="allowGeolocation") Lat: {{ getCoordinates.lat }}, Lng: {{ getCoordinates.lng }}
-    p(v-else) You need to allow Geolocation for this app to work!
+    //- USER NOTIFY
+    p(v-else)
+      | You need to allow Geolocation for this app to work! <br>
+      | Please, refresh page and try again.
     hr
-    ListFlights(msg="Welcome to Your Air Traffic App")
+    ListFlights(:flights="getFlights")
 </template>
 
 <script>
@@ -22,26 +28,40 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getCoordinates', 'allowGeolocation'])
+    ...mapGetters([
+      'getCoordinates',
+      'allowGeolocation',
+      'getFlights',
+      'getAddress'])
   },
   mounted () {
-    console.log('Mounted')
-
     // Check if there is geolocation option
     if ('geolocation' in navigator) {
-      console.log('yes')
+      console.log('Geolocation OK!')
     } else {
-      console.log('no')
+      alert('You may have to upgrade your Browser to use this app!')
     }
 
     if (!this.allowGeolocation) {
       // Ask user for permission to use geolocation
       if (confirm('This app wants to use geolocation')) {
+        // Fetch user location
         this.$store.dispatch('fetchUserLocation').then(({ lat, lng }) => {
-          this.$store.dispatch('fetchFlights', {
+          const vm = this
+
+          // Then fetch flights for user's location
+          vm.$store.dispatch('fetchFlights', {
             lat,
             lng
           })
+
+          // Set data to update on 1 minute interval
+          setInterval(function() {
+            vm.$store.dispatch('fetchFlights', {
+              lat,
+              lng
+            })
+          }, 60 * 1000)
         })
       } else {
         console.log('Error: You need to allow geolocation to use this app!')
@@ -50,3 +70,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.location-headline
+  font-size 20px
+  font-weight 700
+</style>

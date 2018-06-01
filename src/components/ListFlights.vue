@@ -1,13 +1,25 @@
 <template lang="pug">
   div
-    p {{ msg }}
+    ul(v-if="flights")
+      li(
+        v-for="flight in flights"
+        :key="flight.id"
+        )
+          router-link(:to="{name: 'details', params: {id: flight.Id}}")
+            span.plane-icon(v-if="flight.Brng < 180") &#9992;
+            span.plane-icon(v-else :class="{ rotate180: flight.Brng > 180 }") &#9992;
+            span.plane-alt {{ flight.Alt }} ft
+            span id: {{ flight.Id }}
+            span(v-if="flight.Op") : Operater: {{ flight.Op }}
+            span(v-else) : --- Unknown --- 
+
 </template>
 
 <script>
 export default {
   name: 'list-flights',
   props: {
-    msg: String
+    flights: Array
   }
 }
 </script>
@@ -22,9 +34,29 @@ ul
   padding 0
 
 li
-  display inline-block
+  position relative
+  text-align: left;
+  display block
+  border 1px solid grey
+  padding 5px
+  padding-left 20px
   margin 0 10px
 
 a
-  color #42b983
+  color #333
+  margin-left 2rem
+
+.plane-alt
+  margin-left 2rem
+
+.plane-icon {
+  position absolute
+  color blue
+}
+
+.rotate180
+  display inline-block
+  color: red
+  transform: rotate(180deg)
+
 </style>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 let http = axios.create({
-  baseURL: `https://api.caresome.com`
+  baseURL: `http://localhost:3000/api`
 })
 
 export default http
