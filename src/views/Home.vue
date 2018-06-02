@@ -1,15 +1,12 @@
-<template lang="pug">
-  .home
-    //- USER LOCATION
-    p.location-headline Your Location: {{ getAddress }}
-    //- COORDINATES
-    p(v-if="allowGeolocation") Lat: {{ getCoordinates.lat }}, Lng: {{ getCoordinates.lng }}
-    //- USER NOTIFY
-    p(v-else)
-      | You need to allow Geolocation for this app to work! <br>
-      | Please, refresh page and try again.
-    hr
-    ListFlights(:flights="getFlights")
+<template>
+
+  <ListFlights
+    :flights="getFlights"
+    :address="getAddress"
+    :lat="getCoordinates.lat"
+    :lng="getCoordinates.lng"
+    :allowGeolocation="allowGeolocation"
+    />
 </template>
 
 <script>
@@ -23,11 +20,8 @@ export default {
   components: {
     ListFlights
   },
-  data () {
-    return {
-    }
-  },
   computed: {
+    // get information from store
     ...mapGetters([
       'getCoordinates',
       'allowGeolocation',
@@ -56,7 +50,7 @@ export default {
           })
 
           // Set data to update on 1 minute interval
-          setInterval(function() {
+          setInterval(function () {
             vm.$store.dispatch('fetchFlights', {
               lat,
               lng
