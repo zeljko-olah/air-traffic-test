@@ -6,11 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint-autofix": "eslint --ext .js,.vue src test --fix"
+    "lint-autofix": "eslint --ext .js,.vue src test --fix",
+    "postinstall": "npm run serve",
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "request": "^2.87.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.18",
@@ -21,9 +26,6 @@
     "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-standard": "^3.0.0-beta.15",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.3",
-    "request": "^2.87.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.16"
