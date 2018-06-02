@@ -7,8 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint-autofix": "eslint --ext .js,.vue src test --fix",
-    "postinstall": "npm run serve",
-    "start": "nodemon server.js"
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
