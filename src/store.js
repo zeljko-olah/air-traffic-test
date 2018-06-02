@@ -3,28 +3,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import http from './http'
 
-// persist state on page refresh
-import VuexPersist from 'vuex-persist'
-
 Vue.use(Vuex)
-
-// configure Vuex Persist
-const vuexLocalStorage = new VuexPersist({
-  key: 'vuex',
-  storage: window.localStorage,
-  // persist when user allow Geolocation
-  reducer: state => ({
-    allowGeolocation: state.allowGeolocation,
-    lat: state.lat,
-    lng: state.lng
-  })
-})
 
 // Store
 export default new Vuex.Store({
-
-  // plugins
-  // plugins: [vuexLocalStorage.plugin],
 
   // state
   state: {
@@ -33,7 +15,8 @@ export default new Vuex.Store({
     allowGeolocation: false,
     flights: [],
     address: '',
-    currentFlight: null
+    currentFlight: null,
+    loading: false
   },
 
   // mutations
@@ -53,6 +36,9 @@ export default new Vuex.Store({
     },
     setCurrentFlight (state, payload) {
       state.currentFlight = payload
+    },
+    loading (state, payload) {
+      state.loading = payload
     }
   },
 
@@ -61,6 +47,7 @@ export default new Vuex.Store({
     fetchUserLocation ({ state, commit, dispatch }) {
       return new Promise((resolve, reject) => {
         try {
+          commit('loading', true)
           navigator.geolocation.getCurrentPosition(function (position) {
             console.log('Fetching Airplanes for this location inside store', position.coords.latitude, position.coords.longitude)
             commit('allowGeolocation', true)
@@ -73,7 +60,7 @@ export default new Vuex.Store({
               lat: position.coords.latitude,
               lng: position.coords.longitude
             })
-            console.log('POSITION:::',position)
+            console.log('POSITION:::', position)
           })
         } catch (e) {
           reject(e)
@@ -83,6 +70,7 @@ export default new Vuex.Store({
     // fetch fligth for user's location
     fetchFlights ({ commit }, { lat, lng }) {
       console.log('FETCHING FLIGHTS FOR COORDINATES:::', lat, lng)
+      commit('loading', true)
       http.get('/flights', {
         params: {
           lat,
@@ -91,12 +79,14 @@ export default new Vuex.Store({
       })
         .then((res) => {
           commit('storeFlights', res.data.data.acList)
+          commit('loading', false)
         })
         .catch((e) => {
+          commit('loading', false)
           console.log(e)
         })
     },
-    fetchUserAddress ({ commit }, ) {
+    fetchUserAddress ({ commit }) {
       http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=44.8481564,20.355491&key=AIzaSyD9FwzlR4IfBYsNhIhk3FYZxwbPz6lS0cU')
         .then((res) => {
           console.log('FIND ADDRESS::: ', res.data.results[1].formatted_address)
@@ -129,7 +119,7 @@ export default new Vuex.Store({
     getFlights (state) {
       return state.flights
         .sort((a, b) => {
-          return b.Alt -  a.Alt
+          return b.Alt - a.Alt
         })
     },
     getAddress (state) {
@@ -137,6 +127,9 @@ export default new Vuex.Store({
     },
     getCurrentFlight (state) {
       return state.currentFlight
+    },
+    loading (state) {
+      return state.loading
     }
   }
 })
