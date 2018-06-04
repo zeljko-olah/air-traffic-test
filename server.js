@@ -15,7 +15,7 @@ app.use(cors())
 // body parser
 app.use(bodyParser.json())
 // serve static
-app.use(serveStatic('docs', {'index': ['index.html', 'index.htm']}))
+app.use(serveStatic('dist', {'index': ['index.html', 'index.htm']}))
 // histort api fallback
 app.use(history())
 
@@ -66,7 +66,10 @@ app.get('/api/flights', (req, res) => {
   })
 })
 
+// port
+const port = process.env.PORT || 3000
+
 // start server
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log('Server is up on port 3000')
 })
