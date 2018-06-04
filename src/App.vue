@@ -17,7 +17,7 @@
 
         <!-- LOGO -->
         <v-avatar :size="100" class="site-logo">
-           <img src="/logo.png" alt="John">
+           <img src="logo.png" alt="John">
          </v-avatar>
       </v-flex>
     </v-layout>
