@@ -2,7 +2,10 @@
 const express = require('express')
 const cors = require('cors')
 const request = require('request')
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser')
+const serveStatic = require('serve-static')
+const history = require('connect-history-api-fallback');
+
 
 // initialize app
 var app = express()
@@ -11,11 +14,16 @@ var app = express()
 app.use(cors())
 // body parser
 app.use(bodyParser.json())
+// serve static
+app.use(serveStatic('docs', {'index': ['index.html', 'index.htm']}))
+// histort api fallback
+app.use(history())
 
 // routes
-app.get('/', function(req, res) {
-  res.json({ message: 'API Initialized!'});
-});
+// app.get('/', function(req, res) {
+//   res.json({ message: 'API Initialized!'});
+// });
+
 app.get('/api/flights', (req, res) => {
   // get latitude and longitude
   const { lat, lng } = req.query
