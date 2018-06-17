@@ -6,6 +6,7 @@ const airlineWebsites = {
   'Azur Air': 'azurair.com',
   'Blue Air': 'blueair.com',
   'Bulgaria Air': 'air.bg',
+  'British Airways': 'britishairways.com',
   'Cobalt Air': 'cobalt-aircraft.com',
   'Condor Flugdienst': 'condor.com',
   'Egyptair': 'egyptairplus.com',

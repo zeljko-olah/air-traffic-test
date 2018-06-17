@@ -86,8 +86,8 @@ export default new Vuex.Store({
           console.log(e)
         })
     },
-    fetchUserAddress ({ commit }) {
-      http.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=44.8481564,20.355491&key=AIzaSyD9FwzlR4IfBYsNhIhk3FYZxwbPz6lS0cU')
+    fetchUserAddress ({ commit, state }) {
+      http.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${state.lat},${state.lng}&key=AIzaSyD9FwzlR4IfBYsNhIhk3FYZxwbPz6lS0cU`)
         .then((res) => {
           console.log('FIND ADDRESS::: ', res.data.results[1].formatted_address)
           const address = res.data.results[1].formatted_address

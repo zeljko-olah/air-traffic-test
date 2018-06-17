@@ -115,8 +115,8 @@ export default {
         {
           title: 'Home',
           icon: 'home',
-          subtitle: 'Quantox Technologies ltd.',
-          link: 'https://quantox.com/'
+          subtitle: 'Zeljko Olah GitHub.',
+          link: 'https://github.com/zeljko-olah'
         }
       ],
       mini: true,
